@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Between Two Hearts</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Playfair+Display:ital,wght@0,500;0,700;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0d0f14;
+        --bg-soft: #151a23;
+        --card: rgba(255, 255, 255, 0.08);
+        --card-strong: rgba(10, 12, 17, 0.78);
+        --line: rgba(255, 255, 255, 0.11);
+        --text: #f5f0e8;
+        --muted: rgba(245, 240, 232, 0.68);
+        --gold: #c9a84c;
+        --blue: #4a90d9;
+        --rose: #d4638a;
+        --green: #5ba85a;
+        --danger: #ef6b7b;
+        --shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(201, 168, 76, 0.14), transparent 30%),
+          radial-gradient(circle at top right, rgba(74, 144, 217, 0.14), transparent 28%),
+          radial-gradient(circle at bottom center, rgba(212, 99, 138, 0.14), transparent 32%),
+          linear-gradient(135deg, var(--bg) 0%, var(--bg-soft) 50%, var(--bg) 100%);
+        font-family: "Lato", sans-serif;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .font-display {
+        font-family: "Playfair Display", serif;
+      }
+
+      .app-shell {
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 24px 16px 96px;
+        display: grid;
+        gap: 24px;
+      }
+
+      .glass,
+      .glass-strong {
+        border: 1px solid var(--line);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        box-shadow: var(--shadow);
+      }
+
+      .glass {
+        background: var(--card);
+      }
+
+      .glass-strong {
+        background: var(--card-strong);
+      }
+
+      .hero,
+      .section {
+        border-radius: 32px;
+        padding: 24px;
+      }
+
+      .layout {
+        display: grid;
+        gap: 24px;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .hero-grid,
+      .stats-grid,
+      .characters-grid,
+      .prompts-grid,
+      .voices-grid,
+      .board-grid {
+        display: grid;
+        gap: 20px;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-grid,
+      .characters-grid,
+      .prompts-grid,
+      .voices-grid,
+      .board-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(201, 168, 76, 0.28);
+        background: rgba(201, 168, 76, 0.1);
+        color: var(--gold);
+        padding: 8px 14px;
+        font-size: 13px;
+      }
+
+      .title {
+        margin: 16px 0 8px;
+        font-size: clamp(42px, 7vw, 74px);
+        line-height: 1;
+        color: var(--gold);
+        font-style: italic;
+      }
+
+      .hero-copy,
+      .section-subtitle,
+      .muted {
+        color: var(--muted);
+        line-height: 1.75;
+      }
+
+      .stat-card,
+      .character-card,
+      .scene-card,
+      .prompt-card,
+      .voice-card,
+      .column,
+      .status-banner {
+        border-radius: 28px;
+        padding: 20px;
+      }
+
+      .section-header {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+
+      .section-title {
+        margin: 0;
+        color: var(--gold);
+        font-size: clamp(32px, 4vw, 46px);
+        font-style: italic;
+      }
+
+      .label {
+        font-size: 12px;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: rgba(201, 168, 76, 0.72);
+      }
+
+      .form-stack,
+      .button-row,
+      .scene-lines,
+      .task-stack {
+        display: grid;
+        gap: 12px;
+      }
+
+      input,
+      textarea,
+      select,
+      button {
+        font: inherit;
+      }
+
+      input,
+      textarea,
+      select {
+        width: 100%;
+        border-radius: 16px;
+        border: 1px solid var(--line);
+        background: rgba(17, 23, 34, 0.92);
+        color: var(--text);
+        padding: 14px 16px;
+        outline: none;
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 88px;
+      }
+
+      input:focus,
+      textarea:focus,
+      select:focus {
+        border-color: rgba(201, 168, 76, 0.72);
+      }
+
+      button {
+        cursor: pointer;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--text);
+        padding: 12px 18px;
+        min-height: 44px;
+        transition: 0.2s ease;
+      }
+
+      .btn:hover {
+        border-color: rgba(201, 168, 76, 0.3);
+        color: var(--gold);
+      }
+
+      .btn-gold {
+        border-color: rgba(201, 168, 76, 0.3);
+        background: rgba(201, 168, 76, 0.1);
+        color: var(--gold);
+      }
+
+      .btn-gold:hover {
+        background: var(--gold);
+        color: #0d0f14;
+      }
+
+      .btn[disabled] {
+        cursor: wait;
+        opacity: 0.7;
+      }
+
+      .character-card .name {
+        margin: 2px 0 0;
+        font-size: 32px;
+        font-style: italic;
+      }
+
+      .color-dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+      }
+
+      .preview-box,
+      .media-box,
+      .sample-box {
+        margin-top: 16px;
+        border-radius: 24px;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 16px;
+      }
+
+      .scene-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 999px;
+        padding: 8px 12px;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: rgba(245, 240, 232, 0.74);
+      }
+
+      .action-line {
+        color: #93a0b4;
+        font-style: italic;
+      }
+
+      .dialogue-line {
+        line-height: 1.85;
+      }
+
+      .status-banner {
+        margin-bottom: 24px;
+        border: 1px solid rgba(239, 107, 123, 0.26);
+        background: rgba(239, 107, 123, 0.12);
+        color: #ffd5dc;
+      }
+
+      .loading-shell {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+
+      .loading-box {
+        width: min(560px, 100%);
+        padding: 32px;
+        text-align: center;
+        border-radius: 32px;
+      }
+
+      .spinner {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        border: 3px solid rgba(201, 168, 76, 0.18);
+        border-top-color: var(--gold);
+        margin: 0 auto 16px;
+        animation: spin 0.9s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .nav-mobile {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 20;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 6px;
+        padding: 10px;
+        background: rgba(16, 20, 29, 0.92);
+        border-top: 1px solid var(--line);
+        backdrop-filter: blur(16px);
+      }
+
+      .nav-mobile button,
+      .nav-desktop button {
+        border: 0;
+      }
+
+      .nav-mobile button {
+        border-radius: 18px;
+        padding: 10px 8px;
+        background: transparent;
+        color: rgba(245, 240, 232, 0.72);
+        font-size: 11px;
+      }
+
+      .nav-mobile button.active,
+      .nav-desktop button.active {
+        background: var(--gold);
+        color: #0d0f14;
+      }
+
+      .nav-desktop {
+        display: grid;
+        gap: 10px;
+      }
+
+      .nav-desktop button {
+        text-align: left;
+        border-radius: 18px;
+        padding: 14px 16px;
+        background: rgba(255, 255, 255, 0.05);
+        color: rgba(245, 240, 232, 0.82);
+      }
+
+      .media-box video,
+      .media-box audio {
+        width: 100%;
+        border-radius: 18px;
+      }
+
+      .column {
+        min-height: 320px;
+      }
+
+      .task {
+        border-radius: 24px;
+        border: 1px solid var(--line);
+        background: rgba(19, 25, 37, 0.95);
+        padding: 16px;
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        cursor: grab;
+      }
+
+      .task:hover {
+        border-color: rgba(201, 168, 76, 0.28);
+      }
+
+      .task-grip {
+        color: rgba(245, 240, 232, 0.35);
+      }
+
+      .mono {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      }
+
+      .small {
+        font-size: 14px;
+      }
+
+      @media (min-width: 960px) {
+        .app-shell {
+          grid-template-columns: 290px minmax(0, 1fr);
+          padding: 24px 24px 48px;
+        }
+
+        .sidebar {
+          display: flex;
+          position: sticky;
+          top: 24px;
+          height: calc(100vh - 48px);
+          flex-direction: column;
+          justify-content: space-between;
+          border-radius: 32px;
+          padding: 20px;
+        }
+
+        .nav-mobile {
+          display: none;
+        }
+
+        .hero-grid {
+          grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.9fr);
+        }
+
+        .characters-grid,
+        .voices-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .prompts-grid,
+        .board-grid,
+        .stats-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .board-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script>
+      const API_BASE = "http://127.0.0.1:8000";
+      const STORAGE_KEY = "between-two-hearts-kanban-v3";
+      const characterColors = {
+        Aryan: "#4A90D9",
+        Sara: "#D4638A",
+        Rohan: "#5BA85A",
+      };
+
+      const defaultTasks = {
+        todo: [
+          { id: "task-1", text: "Vertex Imagen portraits for all leads (backend button)", character: "Aryan" },
+          { id: "task-2", text: "Veo clips with portrait references + script-aware prompt", character: "Sara" },
+          { id: "task-3", text: "ElevenLabs per-line dialogue mix (ffmpeg+pydub)", character: "Rohan" },
+          { id: "task-4", text: "Compose finals: mux video+audio via ffmpeg per scene" },
+          { id: "task-5", text: "Optional: external lip-sync pass for broadcast-perfect sync", character: "Aryan" },
+          { id: "task-6", text: "Optional: grade, music, titles in Resolve / CapCut" },
+        ],
+        inProgress: [],
+        done: [],
+      };
+
+      const state = {
+        characters: [],
+        scenes: [],
+        health: null,
+        loading: true,
+        error: "",
+        activeSection: "characters",
+        pending: {},
+        copiedKey: "",
+        tasks: loadTasks(),
+        voiceAudioMap: {},
+      };
+
+      const app = document.getElementById("app");
+
+      function loadTasks() {
+        try {
+          return JSON.parse(localStorage.getItem(STORAGE_KEY)) || defaultTasks;
+        } catch {
+          return defaultTasks;
+        }
+      }
+
+      function saveTasks() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state.tasks));
+      }
+
+      function setState(patch) {
+        Object.assign(state, patch);
+        render();
+      }
+
+      function setPending(key, value) {
+        state.pending[key] = value;
+        render();
+      }
+
+      function setCopied(key) {
+        state.copiedKey = key;
+        render();
+        setTimeout(() => {
+          if (state.copiedKey === key) {
+            state.copiedKey = "";
+            render();
+          }
+        }, 1800);
+      }
+
+      function portraitPrompt(character) {
+        return `Photorealistic cinematic portrait of ${character.name}, ${character.age}-year-old Indian ${
+          character.name === "Sara" ? "woman" : "man"
+        }, role: ${character.role}. Personality: ${character.personality}. Appearance: ${character.appearance}. Premium dramatic lighting, textured skin detail, expressive eyes, film still, 85mm lens, subtle emotional tension, ultra realistic.`;
+      }
+
+      function completionPercent() {
+        const total = Object.values(state.tasks).flat().length;
+        return total ? Math.round((state.tasks.done.length / total) * 100) : 0;
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function buttonLabel(base, key) {
+        return state.copiedKey === key ? "Copied!" : base;
+      }
+
+      async function copyText(key, text) {
+        await navigator.clipboard.writeText(text);
+        setCopied(key);
+      }
+
+      async function fetchJson(url, options) {
+        const response = await fetch(url, options);
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          const d = payload.detail;
+          let message = "Request failed.";
+          if (typeof d === "string") {
+            message = d;
+          } else if (Array.isArray(d)) {
+            message = d.map((item) => (typeof item.msg === "string" ? item.msg : JSON.stringify(item))).join("; ");
+          } else if (d) {
+            message = JSON.stringify(d);
+          }
+          throw new Error(message);
+        }
+        return payload;
+      }
+
+      async function loadAll() {
+        setState({ loading: true, error: "" });
+        try {
+          const [health, characters, scenes] = await Promise.all([
+            fetchJson(`${API_BASE}/api/health`),
+            fetchJson(`${API_BASE}/api/characters`),
+            fetchJson(`${API_BASE}/api/scenes`),
+          ]);
+          setState({ health, characters, scenes, loading: false, error: "" });
+        } catch (error) {
+          setState({ loading: false, error: error.message });
+        }
+      }
+
+      async function saveCharacter(id) {
+        const key = `save-character-${id}`;
+        const character = state.characters.find((item) => item.id === id);
+        if (!character) return;
+        setPending(key, true);
+        try {
+          const fresh = await fetchJson(`${API_BASE}/api/characters/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name: character.name,
+              age: Number(character.age),
+              role: character.role,
+              personality: character.personality,
+              appearance: character.appearance,
+              voice_style: character.voice_style,
+              color_hex: character.color_hex,
+            }),
+          });
+          state.characters = state.characters.map((item) => (item.id === id ? fresh : item));
+          render();
+        } catch (error) {
+          alert(error.message);
+        } finally {
+          setPending(key, false);
+        }
+      }
+
+      async function saveScene(id) {
+        const key = `save-scene-${id}`;
+        const scene = state.scenes.find((item) => item.id === id);
+        if (!scene) return;
+        setPending(key, true);
+        try {
+          const fresh = await fetchJson(`${API_BASE}/api/scenes/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              title: scene.title,
+              location: scene.location,
+              time_of_day: scene.time_of_day,
+              action_text: scene.action_text,
+              dialogue_json: scene.dialogue_json,
+              emotion_tags: scene.emotion_tags,
+              veo3_prompt: scene.veo3_prompt,
+            }),
+          });
+          state.scenes = state.scenes.map((item) => (item.id === id ? fresh : item));
+          render();
+        } catch (error) {
+          alert(error.message);
+        } finally {
+          setPending(key, false);
+        }
+      }
+
+      async function generateVideo(id) {
+        const key = `video-${id}`;
+        setPending(key, true);
+        try {
+          const fresh = await fetchJson(`${API_BASE}/api/scenes/${id}/generate-video`, {
+            method: "POST",
+          });
+          state.scenes = state.scenes.map((item) => (item.id === id ? fresh : item));
+          render();
+        } catch (error) {
+          alert(error.message);
+        } finally {
+          setPending(key, false);
+        }
+      }
+
+      async function generateSceneAudio(id) {
+        const key = `scene-audio-${id}`;
+        setPending(key, true);
+        try {
+          const fresh = await fetchJson(`${API_BASE}/api/scenes/${id}/generate-audio`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({}),
+          });
+          state.scenes = state.scenes.map((item) => (item.id === id ? fresh : item));
+          render();
+        } catch (error) {
+          alert(error.message);
+        } finally {
+          setPending(key, false);
+        }
+      }
+
+      async function generatePortrait(id) {
+        const key = `portrait-${id}`;
+        setPending(key, true);
+        try {
+          const fresh = await fetchJson(`${API_BASE}/api/characters/${id}/generate-portrait`, { method: "POST" });
+          state.characters = state.characters.map((item) => (item.id === id ? fresh : item));
+          render();
+        } catch (error) {
+          alert(error.message);
+        } finally {
+          setPending(key, false);
+        }
+      }
+
+      async function generateDialogueMix(id) {
+        const key = `dialogue-audio-${id}`;
+        setPending(key, true);
+        try {
+          const fresh = await fetchJson(`${API_BASE}/api/scenes/${id}/generate-dialogue-audio`, { method: "POST" });
+          state.scenes = state.scenes.map((item) => (item.id === id ? fresh : item));
+          render();
+        } catch (error) {
+          alert(error.message);
+        } finally {
+          setPending(key, false);
+        }
+      }
+
+      async function composeFinal(id) {
+        const key = `compose-final-${id}`;
+        setPending(key, true);
+        try {
+          const fresh = await fetchJson(`${API_BASE}/api/scenes/${id}/compose-final`, { method: "POST" });
+          state.scenes = state.scenes.map((item) => (item.id === id ? fresh : item));
+          render();
+        } catch (error) {
+          alert(error.message);
+        } finally {
+          setPending(key, false);
+        }
+      }
+
+      async function generateVoice(id) {
+        const key = `voice-${id}`;
+        const character = state.characters.find((item) => item.id === id);
+        if (!character) return;
+        setPending(key, true);
+        try {
+          const payload = await fetchJson(`${API_BASE}/api/characters/${id}/generate-voice`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text: character.sample_line || `Sample line for ${character.name}` }),
+          });
+          state.voiceAudioMap[id] = `${API_BASE}${payload.audio_url}`;
+          render();
+        } catch (error) {
+          alert(error.message);
+        } finally {
+          setPending(key, false);
+        }
+      }
+
+      function updateCharacterField(id, field, value) {
+        state.characters = state.characters.map((item) => (item.id === id ? { ...item, [field]: value } : item));
+      }
+
+      function updateSceneField(id, field, value) {
+        state.scenes = state.scenes.map((item) => (item.id === id ? { ...item, [field]: value } : item));
+      }
+
+      function updateTaskColumn(taskId, fromColumn, toColumn) {
+        if (fromColumn === toColumn) return;
+        const task = state.tasks[fromColumn].find((item) => item.id === taskId);
+        if (!task) return;
+        state.tasks[fromColumn] = state.tasks[fromColumn].filter((item) => item.id !== taskId);
+        state.tasks[toColumn].push(task);
+        saveTasks();
+        render();
+      }
+
+      function sectionHtml() {
+        const hero = `
+          <section class="hero glass-strong">
+            <div class="hero-grid">
+              <div>
+                <div class="pill">Premium AI film workflow</div>
+                <h1 class="font-display title">Between Two Hearts</h1>
+                <p class="hero-copy">
+                  Vertex Imagen anchors each cast face, Veo 3 consumes those portraits as reference assets alongside an expanded cinematic prompt,
+                  ElevenLabs renders every dialogue line with the correct performer voice, and ffmpeg merges the silent master with the dialogue bed.
+                  For frame-accurate lip sync, route exports through your preferred lip-sync or avatar tool after this pass.
+                </p>
+              </div>
+              <div class="stats-grid">
+                <div class="stat-card glass">
+                  <div class="label">Backend</div>
+                  <div style="font-size:28px;font-weight:800;margin-top:6px;">${state.error ? "Offline" : "Connected"}</div>
+                  <div class="muted small">${escapeHtml(state.error || `${state.characters.length} characters · ${state.scenes.length} scenes`)}</div>
+                </div>
+                <div class="stat-card glass">
+                  <div class="label">Veo</div>
+                  <div style="font-size:28px;font-weight:800;margin-top:6px;">${state.health?.project_configured ? "Configured" : "Needs setup"}</div>
+                  <div class="muted small mono">${escapeHtml(state.health?.veo_model || "No model detected")}</div>
+                </div>
+                <div class="stat-card glass">
+                  <div class="label">ElevenLabs</div>
+                  <div style="font-size:28px;font-weight:800;margin-top:6px;">${state.health?.elevenlabs_configured ? "Configured" : "Needs setup"}</div>
+                  <div class="muted small">Voice IDs required per character</div>
+                </div>
+                <div class="stat-card glass">
+                  <div class="label">Imagen</div>
+                  <div style="font-size:28px;font-weight:800;margin-top:6px;">${escapeHtml(state.health?.imagen_model || "unset")}</div>
+                  <div class="muted small">Portrait pulls use this Vertex model ID</div>
+                </div>
+                <div class="stat-card glass">
+                  <div class="label">ffmpeg</div>
+                  <div style="font-size:28px;font-weight:800;margin-top:6px;">${state.health?.ffmpeg_available ? "Detected" : "Missing"}</div>
+                  <div class="muted small">Needed for mixing MP3 stems + muxing final MP4</div>
+                </div>
+              </div>
+            </div>
+          </section>
+        `;
+
+        const errorBanner = state.error
+          ? `<div class="status-banner">${escapeHtml(state.error)}</div>`
+          : "";
+
+        const characters = `
+          <section id="characters" class="section glass-strong">
+            <div class="section-header">
+              <div>
+                <div class="label">Section</div>
+                <h2 class="font-display section-title">Character Studio</h2>
+              </div>
+              <div class="section-subtitle">Save bios to SQLite, then generate Vertex Imagen portraits that Veo consumes as facial identity anchors (up to three references per clip).</div>
+            </div>
+            <div class="characters-grid">
+              ${state.characters
+                .map((character) => {
+                  const prompt = portraitPrompt(character);
+                  return `
+                    <article class="character-card glass" style="box-shadow:0 20px 50px ${hexToGlow(character.color_hex)};">
+                      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;">
+                        <div>
+                          <div class="label" style="color:${character.color_hex};">${escapeHtml(character.name)}</div>
+                          <div class="font-display name">${escapeHtml(character.role)}</div>
+                        </div>
+                        <div class="color-dot" style="background:${character.color_hex};"></div>
+                      </div>
+                      <div class="form-stack" style="margin-top:16px;">
+                        <input value="${escapeHtml(character.name)}" data-action="character-input" data-id="${character.id}" data-field="name" />
+                        <input type="number" value="${escapeHtml(character.age)}" data-action="character-input" data-id="${character.id}" data-field="age" />
+                        <textarea data-action="character-input" data-id="${character.id}" data-field="role">${escapeHtml(character.role)}</textarea>
+                        <textarea data-action="character-input" data-id="${character.id}" data-field="personality">${escapeHtml(character.personality)}</textarea>
+                        <textarea data-action="character-input" data-id="${character.id}" data-field="appearance">${escapeHtml(character.appearance)}</textarea>
+                        <select data-action="character-input" data-id="${character.id}" data-field="voice_style">
+                          ${["Deep & calm", "Soft & emotional", "Bold & confident", "Gentle & warm"]
+                            .map((option) => `<option ${option === character.voice_style ? "selected" : ""}>${option}</option>`)
+                            .join("")}
+                        </select>
+                      </div>
+                      ${
+                        character.portrait_url
+                          ? `<div class="media-box" style="margin-top:12px;"><div class="label" style="margin-bottom:10px;">Saved portrait</div><img src="${API_BASE}${character.portrait_url}" alt="${escapeHtml(character.name)} portrait" style="width:100%;border-radius:18px;border:1px solid var(--line);object-fit:cover;max-height:420px;" /></div>`
+                          : `<div class="preview-box small" style="margin-top:12px;"><div class="label" style="color:rgba(245,240,232,.45);margin-bottom:8px;">Portrait</div><div class="muted">No Vertex portrait saved yet.</div></div>`
+                      }
+                      <div class="preview-box small" style="margin-top:12px;">
+                        <div class="label" style="color:rgba(245,240,232,.45);margin-bottom:8px;">Portrait prompt (reference)</div>
+                        <div class="muted">${escapeHtml(prompt)}</div>
+                      </div>
+                      <div class="button-row" style="margin-top:16px;">
+                        <button class="btn" data-action="save-character" data-id="${character.id}" ${state.pending[`save-character-${character.id}`] ? "disabled" : ""}>
+                          ${state.pending[`save-character-${character.id}`] ? "Saving..." : "Save Character"}
+                        </button>
+                        <button class="btn" data-action="generate-portrait" data-id="${character.id}" ${state.pending[`portrait-${character.id}`] ? "disabled" : ""}>
+                          ${state.pending[`portrait-${character.id}`] ? "Imagen..." : "Generate Portrait (Vertex)"}
+                        </button>
+                        <button class="btn btn-gold" data-action="copy-portrait" data-id="${character.id}">
+                          ${buttonLabel("Copy Portrait Prompt", `portrait-${character.id}`)}
+                        </button>
+                      </div>
+                    </article>
+                  `;
+                })
+                .join("")}
+            </div>
+          </section>
+        `;
+
+        const script = `
+          <section id="script" class="section glass-strong">
+            <div class="section-header">
+              <div>
+                <div class="label">Section</div>
+                <h2 class="font-display section-title">Script Viewer</h2>
+              </div>
+              <div class="section-subtitle">The story comes from the backend scenes table and updates when prompts or action beats are saved.</div>
+            </div>
+            <div class="form-stack">
+              ${state.scenes
+                .map(
+                  (scene) => `
+                    <article class="scene-card glass">
+                      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;">
+                        <div>
+                          <div class="label">Scene ${scene.scene_number}</div>
+                          <h3 class="font-display" style="margin:6px 0 0;font-size:34px;font-style:italic;color:var(--gold);">${escapeHtml(scene.title)}</h3>
+                          <div class="scene-meta">
+                            <span class="tag">${escapeHtml(scene.location)}, ${escapeHtml(scene.time_of_day)}</span>
+                          </div>
+                        </div>
+                        <div class="scene-meta">
+                          ${scene.emotion_tags.map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join("")}
+                        </div>
+                      </div>
+                      <p class="action-line">[${escapeHtml(scene.action_text)}]</p>
+                      <div class="scene-lines">
+                        ${scene.dialogue_json
+                          .map(
+                            (line) => `
+                              <div class="dialogue-line">
+                                <strong style="color:${characterColors[line.speaker] || "var(--gold)"};letter-spacing:.16em;text-transform:uppercase;">
+                                  ${escapeHtml(line.speaker)}:
+                                </strong>
+                                "${escapeHtml(line.line)}"
+                              </div>
+                            `
+                          )
+                          .join("")}
+                      </div>
+                    </article>
+                  `
+                )
+                .join("")}
+            </div>
+          </section>
+        `;
+
+        const veo = `
+          <section id="veo" class="section glass-strong">
+            <div class="section-header">
+              <div>
+                <div class="label">Section</div>
+                <h2 class="font-display section-title">Veo 3 Prompt Generator</h2>
+              </div>
+              <div class="section-subtitle">Pipeline order: Save prompt → portraits for speaking roles → Generate Video (Veo merges script + refs) → Dialogue Mix → Compose Final MP4.</div>
+            </div>
+            <div class="prompts-grid">
+              ${state.scenes
+                .map(
+                  (scene) => `
+                    <article class="prompt-card glass">
+                      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;">
+                        <div>
+                          <h3 class="font-display" style="margin:0;color:var(--gold);font-size:30px;font-style:italic;">Scene ${scene.scene_number}</h3>
+                          <div class="tag" style="margin-top:8px;">Google Vertex AI Veo</div>
+                        </div>
+                        <div class="tag">~4 credits</div>
+                      </div>
+                      <textarea data-action="scene-input" data-id="${scene.id}" data-field="veo3_prompt" style="margin-top:16px;min-height:170px;">${escapeHtml(scene.veo3_prompt)}</textarea>
+                      <div class="button-row" style="margin-top:16px;">
+                        <button class="btn" data-action="save-scene" data-id="${scene.id}" ${state.pending[`save-scene-${scene.id}`] ? "disabled" : ""}>
+                          ${state.pending[`save-scene-${scene.id}`] ? "Saving..." : "Save Prompt"}
+                        </button>
+                        <button class="btn btn-gold" data-action="copy-prompt" data-id="${scene.id}">
+                          ${buttonLabel("Copy Prompt", `scene-prompt-${scene.id}`)}
+                        </button>
+                        <button class="btn" data-action="generate-video" data-id="${scene.id}" ${state.pending[`video-${scene.id}`] ? "disabled" : ""}>
+                          ${state.pending[`video-${scene.id}`] ? "Generating..." : "1 · Veo Video"}
+                        </button>
+                        <button class="btn" data-action="generate-dialogue-audio" data-id="${scene.id}" ${state.pending[`dialogue-audio-${scene.id}`] ? "disabled" : ""}>
+                          ${state.pending[`dialogue-audio-${scene.id}`] ? "Mixing..." : "2 · Dialogue Mix"}
+                        </button>
+                      </div>
+                      <div class="button-row" style="margin-top:8px;">
+                        <button class="btn btn-gold" data-action="compose-final" data-id="${scene.id}" ${state.pending[`compose-final-${scene.id}`] ? "disabled" : ""}>
+                          ${state.pending[`compose-final-${scene.id}`] ? "Composing..." : "3 · Compose Final MP4"}
+                        </button>
+                        <button class="btn" data-action="generate-scene-audio" data-id="${scene.id}" ${state.pending[`scene-audio-${scene.id}`] ? "disabled" : ""}>
+                          ${state.pending[`scene-audio-${scene.id}`] ? "Generating..." : "Alt · Single-voice narration"}
+                        </button>
+                      </div>
+                      <p class="muted small" style="margin-top:10px;line-height:1.6;">
+                        Veo uses stored portraits when available (max three characters / scene speaking order).
+                        Mouth motion is modeled in-video; stitched ElevenLabs audio is muxed afterward—fine for drama edits, specialist lip-sync tooling still wins for forensic sync.</p>
+                      ${
+                        scene.video_url
+                          ? `<div class="media-box"><div class="label" style="margin-bottom:10px;">1 · Generated master (silent / native Veo audio option)</div><video controls src="${API_BASE + scene.video_url}"></video></div>`
+                          : ""
+                      }
+                      ${
+                        scene.audio_url
+                          ? `<div class="media-box"><div class="label" style="margin-bottom:10px;">2 · Dialogue / narrator bed</div><audio controls src="${API_BASE + scene.audio_url}"></audio></div>`
+                          : ""
+                      }
+                      ${
+                        scene.final_video_url
+                          ? `<div class="media-box"><div class="label" style="margin-bottom:10px;">Final · ffmpeg mux</div><video controls src="${API_BASE + scene.final_video_url}"></video></div>`
+                          : ""
+                      }
+                    </article>
+                  `
+                )
+                .join("")}
+            </div>
+          </section>
+        `;
+
+        const voices = `
+          <section id="voices" class="section glass-strong">
+            <div class="section-header">
+              <div>
+                <div class="label">Section</div>
+                <h2 class="font-display section-title">ElevenLabs Voice Director</h2>
+              </div>
+              <div class="section-subtitle">Generate per-character sample lines through the backend with saved voice IDs and listen in the browser.</div>
+            </div>
+            <div class="voices-grid">
+              ${state.characters
+                .map(
+                  (character) => `
+                    <article class="voice-card glass" style="box-shadow:0 20px 50px ${hexToGlow(character.color_hex)};">
+                      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;">
+                        <div>
+                          <div class="label" style="color:${character.color_hex};">${escapeHtml(character.name)}</div>
+                          <h3 class="font-display" style="margin:6px 0 0;font-size:32px;font-style:italic;">${escapeHtml(character.voice_style)}</h3>
+                        </div>
+                        <div class="color-dot" style="background:${character.color_hex};"></div>
+                      </div>
+                      <div class="form-stack small" style="margin-top:16px;">
+                        <div><span style="color:var(--gold);">Role:</span> ${escapeHtml(character.role)}</div>
+                        <div><span style="color:var(--gold);">Performance:</span> ${escapeHtml(character.personality)}</div>
+                        <div><span style="color:var(--gold);">Recommended voice family:</span> ${escapeHtml(character.recommended_voice_label || "")}</div>
+                        <div><span style="color:var(--gold);">Configured in backend:</span> ${character.configured_voice_id ? "Yes" : "No"}</div>
+                      </div>
+                      <div class="sample-box">
+                        <div class="label" style="color:rgba(245,240,232,.45);margin-bottom:8px;">Sample Line</div>
+                        <div style="font-style:italic;">"${escapeHtml(character.sample_line || "")}"</div>
+                      </div>
+                      <div class="button-row" style="margin-top:16px;">
+                        <button class="btn" data-action="generate-voice" data-id="${character.id}" ${state.pending[`voice-${character.id}`] ? "disabled" : ""}>
+                          ${state.pending[`voice-${character.id}`] ? "Generating..." : "Generate Voice"}
+                        </button>
+                        <button class="btn btn-gold" data-action="copy-voice-direction" data-id="${character.id}">
+                          ${buttonLabel("Copy Direction", `voice-direction-${character.id}`)}
+                        </button>
+                      </div>
+                      ${
+                        state.voiceAudioMap[character.id]
+                          ? `<div class="media-box"><div class="label" style="margin-bottom:10px;">Generated Sample</div><audio controls src="${state.voiceAudioMap[character.id]}"></audio></div>`
+                          : ""
+                      }
+                    </article>
+                  `
+                )
+                .join("")}
+            </div>
+          </section>
+        `;
+
+        const tracker = `
+          <section id="tracker" class="section glass-strong">
+            <div class="section-header">
+              <div>
+                <div class="label">Section</div>
+                <h2 class="font-display section-title">Production Tracker</h2>
+              </div>
+              <div class="section-subtitle">Local drag-and-drop task tracking stays browser-side so you can manage the production flow independently from generated assets.</div>
+            </div>
+            <div class="status-banner" style="margin-bottom:20px;border-color:rgba(201,168,76,.18);background:rgba(255,255,255,.04);color:var(--text);">
+              This board persists in local storage and does not touch the backend database.
+              <div style="margin-top:12px;">
+                <button class="btn btn-gold" data-action="reset-board">Reset Board</button>
+              </div>
+            </div>
+            <div class="board-grid">
+              ${[
+                ["todo", "To Do"],
+                ["inProgress", "In Progress"],
+                ["done", "Done"],
+              ]
+                .map(
+                  ([key, title]) => `
+                    <div class="column glass" data-column="${key}">
+                      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+                        <h3 class="font-display" style="margin:0;color:var(--gold);font-size:30px;font-style:italic;">${title}</h3>
+                        <span class="tag">${state.tasks[key].length}</span>
+                      </div>
+                      <div class="task-stack">
+                        ${state.tasks[key]
+                          .map(
+                            (task) => `
+                              <div class="task" draggable="true" data-task-id="${task.id}" data-from-column="${key}">
+                                <div class="task-grip">⋮⋮</div>
+                                ${task.character ? `<div class="color-dot" style="background:${characterColors[task.character]};width:12px;height:12px;margin-top:6px;"></div>` : ""}
+                                <div>${escapeHtml(task.text)}</div>
+                              </div>
+                            `
+                          )
+                          .join("")}
+                      </div>
+                    </div>
+                  `
+                )
+                .join("")}
+            </div>
+          </section>
+        `;
+
+        return `${hero}${errorBanner}${characters}${script}${veo}${voices}${tracker}`;
+      }
+
+      function sidebarHtml() {
+        return `
+          <aside class="sidebar glass-strong">
+            <div>
+              <div style="display:flex;gap:12px;align-items:center;margin-bottom:28px;">
+                <div style="width:48px;height:48px;border-radius:16px;background:rgba(201,168,76,.15);display:grid;place-items:center;color:var(--gold);font-size:22px;">🎬</div>
+                <div>
+                  <div class="font-display" style="font-size:32px;color:var(--gold);font-style:italic;">Between Two Hearts</div>
+                  <div class="muted small">AI short film creator</div>
+                </div>
+              </div>
+              <div class="nav-desktop">
+                ${[
+                  ["characters", "Characters"],
+                  ["script", "Script"],
+                  ["veo", "Veo 3"],
+                  ["voices", "Voices"],
+                  ["tracker", "Tracker"],
+                ]
+                  .map(
+                    ([id, label]) =>
+                      `<button class="${state.activeSection === id ? "active" : ""}" data-nav="${id}">${label}</button>`
+                  )
+                  .join("")}
+              </div>
+            </div>
+            <div>
+              <div class="glass" style="border-radius:24px;padding:16px;">
+                <div style="display:flex;justify-content:space-between;font-size:14px;color:var(--muted);margin-bottom:8px;">
+                  <span>Production progress</span>
+                  <span>${completionPercent()}%</span>
+                </div>
+                <div style="height:8px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;">
+                  <div style="height:100%;width:${completionPercent()}%;background:linear-gradient(90deg,var(--gold),var(--text),var(--gold));"></div>
+                </div>
+              </div>
+              <div style="margin-top:14px;">
+                <button class="btn btn-gold" data-action="refresh-data" style="width:100%;">Refresh backend data</button>
+              </div>
+            </div>
+          </aside>
+        `;
+      }
+
+      function mobileNavHtml() {
+        return `
+          <nav class="nav-mobile">
+            ${[
+              ["characters", "Chars"],
+              ["script", "Script"],
+              ["veo", "Veo"],
+              ["voices", "Voices"],
+              ["tracker", "Track"],
+            ]
+              .map(
+                ([id, label]) =>
+                  `<button class="${state.activeSection === id ? "active" : ""}" data-nav="${id}">${label}</button>`
+              )
+              .join("")}
+          </nav>
+        `;
+      }
+
+      function renderLoading() {
+        app.innerHTML = `
+          <div class="loading-shell">
+            <div class="loading-box glass-strong">
+              <div class="spinner"></div>
+              <div class="font-display" style="font-size:40px;font-style:italic;color:var(--gold);">Between Two Hearts</div>
+              <p class="muted">Connecting to the backend and loading your film dashboard...</p>
+            </div>
+          </div>
+        `;
+      }
+
+      function render() {
+        if (state.loading) {
+          renderLoading();
+          return;
+        }
+
+        app.innerHTML = `
+          <div class="app-shell">
+            ${sidebarHtml()}
+            <main class="layout">
+              ${sectionHtml()}
+            </main>
+          </div>
+          ${mobileNavHtml()}
+        `;
+
+        bindEvents();
+        observeSections();
+      }
+
+      function bindEvents() {
+        document.querySelectorAll("[data-nav]").forEach((button) => {
+          button.addEventListener("click", () => {
+            const id = button.dataset.nav;
+            state.activeSection = id;
+            document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+            render();
+          });
+        });
+
+        document.querySelectorAll('[data-action="refresh-data"]').forEach((button) => {
+          button.addEventListener("click", loadAll);
+        });
+
+        document.querySelectorAll('[data-action="reset-board"]').forEach((button) => {
+          button.addEventListener("click", () => {
+            state.tasks = JSON.parse(JSON.stringify(defaultTasks));
+            saveTasks();
+            render();
+          });
+        });
+
+        document.querySelectorAll('[data-action="character-input"]').forEach((field) => {
+          field.addEventListener("input", (event) => {
+            updateCharacterField(Number(field.dataset.id), field.dataset.field, event.target.value);
+          });
+        });
+
+        document.querySelectorAll('[data-action="scene-input"]').forEach((field) => {
+          field.addEventListener("input", (event) => {
+            updateSceneField(Number(field.dataset.id), field.dataset.field, event.target.value);
+          });
+        });
+
+        document.querySelectorAll('[data-action="save-character"]').forEach((button) => {
+          button.addEventListener("click", () => saveCharacter(Number(button.dataset.id)));
+        });
+
+        document.querySelectorAll('[data-action="save-scene"]').forEach((button) => {
+          button.addEventListener("click", () => saveScene(Number(button.dataset.id)));
+        });
+
+        document.querySelectorAll('[data-action="generate-video"]').forEach((button) => {
+          button.addEventListener("click", () => generateVideo(Number(button.dataset.id)));
+        });
+
+        document.querySelectorAll('[data-action="generate-scene-audio"]').forEach((button) => {
+          button.addEventListener("click", () => generateSceneAudio(Number(button.dataset.id)));
+        });
+
+        document.querySelectorAll('[data-action="generate-portrait"]').forEach((button) => {
+          button.addEventListener("click", () => generatePortrait(Number(button.dataset.id)));
+        });
+
+        document.querySelectorAll('[data-action="generate-dialogue-audio"]').forEach((button) => {
+          button.addEventListener("click", () => generateDialogueMix(Number(button.dataset.id)));
+        });
+
+        document.querySelectorAll('[data-action="compose-final"]').forEach((button) => {
+          button.addEventListener("click", () => composeFinal(Number(button.dataset.id)));
+        });
+
+        document.querySelectorAll('[data-action="generate-voice"]').forEach((button) => {
+          button.addEventListener("click", () => generateVoice(Number(button.dataset.id)));
+        });
+
+        document.querySelectorAll('[data-action="copy-portrait"]').forEach((button) => {
+          button.addEventListener("click", () => {
+            const character = state.characters.find((item) => item.id === Number(button.dataset.id));
+            if (character) copyText(`portrait-${character.id}`, portraitPrompt(character));
+          });
+        });
+
+        document.querySelectorAll('[data-action="copy-prompt"]').forEach((button) => {
+          button.addEventListener("click", () => {
+            const scene = state.scenes.find((item) => item.id === Number(button.dataset.id));
+            if (scene) copyText(`scene-prompt-${scene.id}`, scene.veo3_prompt);
+          });
+        });
+
+        document.querySelectorAll('[data-action="copy-voice-direction"]').forEach((button) => {
+          button.addEventListener("click", () => {
+            const character = state.characters.find((item) => item.id === Number(button.dataset.id));
+            if (!character) return;
+            copyText(
+              `voice-direction-${character.id}`,
+              `Character: ${character.name}\nVoice style: ${character.voice_style}\nPerformance: ${character.personality}\nSuggested voice family: ${character.recommended_voice_label}\nSample line: "${character.sample_line}"`
+            );
+          });
+        });
+
+        let dragPayload = null;
+        document.querySelectorAll(".task").forEach((task) => {
+          task.addEventListener("dragstart", () => {
+            dragPayload = {
+              taskId: task.dataset.taskId,
+              fromColumn: task.dataset.fromColumn,
+            };
+          });
+        });
+
+        document.querySelectorAll("[data-column]").forEach((column) => {
+          column.addEventListener("dragover", (event) => event.preventDefault());
+          column.addEventListener("drop", () => {
+            if (dragPayload) {
+              updateTaskColumn(dragPayload.taskId, dragPayload.fromColumn, column.dataset.column);
+              dragPayload = null;
+            }
+          });
+        });
+      }
+
+      function observeSections() {
+        const ids = ["characters", "script", "veo", "voices", "tracker"];
+        const observer = new IntersectionObserver(
+          (entries) => {
+            const visible = entries
+              .filter((entry) => entry.isIntersecting)
+              .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+            if (visible) {
+              state.activeSection = visible.target.id;
+              document.querySelectorAll("[data-nav]").forEach((button) => {
+                button.classList.toggle("active", button.dataset.nav === state.activeSection);
+              });
+            }
+          },
+          { threshold: [0.35, 0.6], rootMargin: "-10% 0px -30% 0px" }
+        );
+
+        ids.forEach((id) => {
+          const node = document.getElementById(id);
+          if (node) observer.observe(node);
+        });
+      }
+
+      function hexToGlow(hex) {
+        if (!hex) return "rgba(0,0,0,0.25)";
+        const clean = hex.replace("#", "");
+        const value = parseInt(clean, 16);
+        const r = (value >> 16) & 255;
+        const g = (value >> 8) & 255;
+        const b = value & 255;
+        return `rgba(${r}, ${g}, ${b}, 0.25)`;
+      }
+
+      renderLoading();
+      loadAll();
+    </script>
+  </body>
+</html>

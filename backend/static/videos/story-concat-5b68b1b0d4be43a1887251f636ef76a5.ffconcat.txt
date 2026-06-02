@@ -1,0 +1,6 @@
+ffconcat version 1.0
+file '/Users/saba/Documents/Practice/ai-drama/backend/static/videos/scene-1-final-6b8502574e9f4dc6a30ea8e5be49bbe7.mp4'
+file '/Users/saba/Documents/Practice/ai-drama/backend/static/videos/scene-2-final-e5966916f7b642e8827b1ee4707b5b13.mp4'
+file '/Users/saba/Documents/Practice/ai-drama/backend/static/videos/scene-3-final-ec90850c5a304844916c43f30e87f7b4.mp4'
+file '/Users/saba/Documents/Practice/ai-drama/backend/static/videos/scene-4-final-10b97c77490f45b3b0d097c140b202db.mp4'
+file '/Users/saba/Documents/Practice/ai-drama/backend/static/videos/scene-5-final-c8d18322fe9d41afa6bc647103b1e2cd.mp4'
